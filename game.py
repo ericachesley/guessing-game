@@ -1,4 +1,4 @@
 """A number-guessing game."""
 
 # Put your code here
-print('hi')
+print('Welcome to my number guessing game!')
