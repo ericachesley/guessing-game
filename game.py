@@ -12,7 +12,15 @@ print(f"Ok, {name}, I'm thinking of a number between 1 and 100. Can you guess it
 count = 0
 
 while True:
-    guess = int(input("What's my number? "))
+    guess = input("What's my number? ")
+    try:
+        guess = int(guess)
+    except ValueError:
+        print("Please guess an integer.")
+        continue
+    if guess < 1 or guess > 100:
+        print("Your guess is out of range. Pick a number between 1 and 100, please.")
+        continue
     count += 1
     if guess == number:
         print (f"You guessed my number in {count} tries, {name}!")
