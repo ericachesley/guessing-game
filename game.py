@@ -12,7 +12,7 @@ def round(name, mini, maxi, guesses):
         guess = generateGuess(mini, maxi)
         count += 1
         if evaluateGuess(number, guess):
-            print (f"You guessed my number in {count} tries, {name}!\n")
+            print (f"You guessed my number in {count} tries, {name}!")
             return count
 
     print(f"Oh no! You're out of guesses. My number was {number}. Better luck next time.\n")
@@ -78,9 +78,37 @@ def setParameters():
 
     return [mini, maxi, guesses]
 
+def computerTurn(mini, maxi, guesses):
+    print(f"\nMy turn! Think of a number between {mini} and {maxi} for me to guess in {guesses} guesses.")
+    input("Hit enter when you've got your number. ")
+    print("")
+
+    count = 0
+
+    while count < guesses:
+        guess = int((mini+maxi)/2)
+        count += 1
+
+        while True:
+            feedback = input(f"Is your number {guess}? [a] Yes, [b] Too high, [c] Too low. ")
+            if feedback == 'a':
+                print(f"Hooray! I got your number in {count} guesses.")
+                return count
+            elif feedback == 'b':
+                maxi = guess - 1
+                break
+            elif feedback == 'c':
+                mini = guess + 1
+                break
+            else:
+                print ("Sorry, I didn't get that. Please type either a, b, or c?")
+
+    print ("Aw shucks. I ran out of guesses.\n")
+    return 10000
+
 def playAgain():
     while True:
-        again = input("Would you like to play again? [y/n] ")
+        again = input("Would you like to keep playing? [y/n] ")
         if again == "n":
             return False
         elif again == "y":
@@ -93,17 +121,28 @@ def main():
     name = input("What's your name? ")
     param = setParameters()
 
-    best = 10000
+    userBest = 10000
+    computerBest = 10000
 
     while True:
         score = round(name, param[0], param[1], param[2])
-        if score < best:
-            best = score
+        if score < userBest:
+            userBest = score
 
-        print(f"Your best score is {best}.")
+        if userBest != 10000:
+            print(f"\nYour best score is {userBest}.")
+
+        score = computerTurn(param[0], param[1], param[2])
+        if score < computerBest:
+            computerBest = score
+
+        if computerBest != 10000:
+            print(f"\nMy best score is {computerBest}.")
+
         if not playAgain():
             print("Goodbye!\n")
             return
 
-
 main()
+
+
